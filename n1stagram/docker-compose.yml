@@ -1,0 +1,26 @@
+# This file is based on a CTF challenge image from justCTF 2024 teaser (https://ctftime.org/task/28579).
+# The original Author is @tomek7667
+# Adapted for use in N1CTF 2024
+
+services:
+  prepare:
+    build:
+      context: ./prepare
+      args:
+        - ADMIN_PASSWORD=${ADMIN_PASSWORD:-AdminPassword}
+        - FLAG_PASSWORD=${FLAG_PASSWORD:-FlagPassword}
+    image: "2024_n1ctf_web_n1stagram_2"
+    environment:
+        - FLAG=flag{test}
+    depends_on:
+      - app 
+  app:
+    build:  
+      context: .
+      args:
+        - CACHEBUST=${CACHEBUST:-1}
+        - FLAG_PASSWORD=${FLAG_PASSWORD:-FlagPassword}
+    image: "2024_n1ctf_web_n1stagram_1"
+    ports:
+      - "1337:80"
+ 
